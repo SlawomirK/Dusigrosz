@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Dusigrosz</string>
-    <string name="title_activity_symulation">SymulationActivity</string>
+    <string name="title_activity_symulation">Dusigrosz</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
@@ -12,5 +12,7 @@
     <string name="txt_pole_odsetki">trzeba będzie zapłacić XXXPLN</string>
     <string name="txt_opis_szybkSpaty">Szybkość spłaty(zł/s)</string>
     <string name="txt_przyklad_sym_who">Kuba przykładowy</string>
-    <string name="txt_sym_spl">Symulacja spłaty</string>
+    <string name="txt_sym_spl">Symulacja spłaty dla:</string>
+
+
 </resources>

@@ -11,8 +11,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".SymulationActivity"
-            android:label="@string/title_activity_symulation"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+
+            />
         <activity android:name=".DluznikActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

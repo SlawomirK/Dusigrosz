@@ -11,12 +11,10 @@
         android:layout_height="729dp"
         android:layout_margin="16dp"
         android:layout_marginStart="5dp"
-        android:layout_marginLeft="5dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginBottom="16dp"
-        android:gravity="center"
+        android:gravity="center|left"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,6 +45,7 @@
                 android:id="@+id/textView11"
                 android:layout_width="77dp"
                 android:layout_height="34dp"
+                android:layout_marginLeft="8dp"
                 android:text="Nazwa"
                 android:textStyle="bold" />
 
@@ -69,6 +68,7 @@
                 android:id="@+id/id_text"
                 android:layout_width="106dp"
                 android:layout_height="34dp"
+                android:layout_marginLeft="8dp"
                 android:text="Dług"
                 android:textStyle="bold" />
 
@@ -90,6 +90,7 @@
                 android:id="@+id/textView113"
                 android:layout_width="106dp"
                 android:layout_height="34dp"
+                android:layout_marginLeft="8dp"
                 android:text="Kontakt" />
 
             <EditText
@@ -129,6 +130,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="30dp"
                 android:layout_marginBottom="20dp"
+                android:onClick="onClickCancel"
                 android:text="Anuluj" />
         </TableRow>
 
