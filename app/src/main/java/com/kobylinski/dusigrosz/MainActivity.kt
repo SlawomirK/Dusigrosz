@@ -3,6 +3,7 @@ package com.kobylinski.dusigrosz
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
@@ -11,26 +12,46 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ListView
 import android.widget.TextView
+import com.kobylinski.dusigrosz.database.DatabaseHelper
 import com.kobylinski.dusigrosz.model.Debeter
 
 class MainActivity : AppCompatActivity() {
 
+    internal lateinit var dB: DatabaseHelper
+
+    companion object {
+        var listDebters: List<Debeter> = ArrayList<Debeter>()
+        fun getSumOfAllDebts(): Double {
+            return listDebters.sumByDouble { it.debt }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        dB = DatabaseHelper(this)
+        val d=dB.writableDatabase
+
+        refreshData()
         createListView()
         sumAllDebts()
-
     }
 
-    public fun onClickToDebeter(view:View){
-        val intent=Intent(this,DluznikActivity::class.java)
+    private fun refreshData() {
+        listDebters = dB.getAllDebeters()
+        val listDebt = findViewById<ListView>(R.id.listView_debeters)
+        listDebt.adapter = MyAdapter(this);
+    }
+
+
+    public fun onClickToDebeter(view: View) {
+        val intent = Intent(this, DluznikActivity::class.java)
         startActivity(intent)
     }
 
     private fun sumAllDebts() {
-        val allDebts=findViewById<TextView>(R.id.text_sumDebts)
-        allDebts.text=Debeter.getAllDebts().toString()+" PLN"
+        val allDebts = findViewById<TextView>(R.id.text_sumDebts)
+        allDebts.text = getSumOfAllDebts().toString() + " PLN"
     }
 
     private fun createListView() {
@@ -50,14 +71,14 @@ class MainActivity : AppCompatActivity() {
             val layoutInflater = LayoutInflater.from(mContext)
             val rowMain = layoutInflater.inflate(R.layout.row_main, parent, false)
             val nameTextView = rowMain.findViewById<TextView>(R.id.id_name_debt)
-            nameTextView.text = Debeter.names.get(position).name
+            nameTextView.text = listDebters.get(position).name
             val debt = rowMain.findViewById<TextView>(R.id.id_Debt)
-            debt.text =  Debeter.names.get(position).debt.toString() + " PLN";
+            debt.text = listDebters.get(position).debt.toString() + " PLN";
             return rowMain
         }
 
         override fun getItem(position: Int): Any {
-            return Debeter.names.get(position)
+            return listDebters.get(position)
         }
 
         override fun getItemId(position: Int): Long {
@@ -65,7 +86,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun getCount(): Int {
-            return Debeter.names.size
+            return listDebters.size
         }
 
     }
