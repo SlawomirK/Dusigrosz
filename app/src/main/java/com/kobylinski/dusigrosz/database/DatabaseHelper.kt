@@ -43,7 +43,7 @@ class DatabaseHelper(val context: Context) :SQLiteOpenHelper(context, TableInfo.
         onCreate(db)
     }
 
-    fun inserDebeter( debt: Debeter) {
+    fun inserDebeter( debt: Debeter): Long? {
         val db = this.writableDatabase
         var cv = ContentValues()
 
@@ -53,10 +53,7 @@ class DatabaseHelper(val context: Context) :SQLiteOpenHelper(context, TableInfo.
 
         var result = db?.insert(TableInfo.TABLE_NAME, null, cv)
 
-        if (result == -1.toLong())
-            Toast.makeText(context, "BłĄD DODANIA", Toast.LENGTH_SHORT).show()
-        else
-            Toast.makeText(context, "DODANO", Toast.LENGTH_SHORT).show()
+      return result
         }
 
     fun getAllDebeters(): ArrayList<Debeter> {

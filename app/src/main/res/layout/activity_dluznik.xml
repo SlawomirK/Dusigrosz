@@ -1,163 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:layout_marginTop="30dp"
+    android:orientation="vertical"
     tools:context=".DluznikActivity">
 
-    <TableLayout
-        android:layout_width="409dp"
-        android:layout_height="729dp"
-        android:layout_margin="16dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
-        android:gravity="center|left"
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center|fill_horizontal"
+        android:text="Dłużnik"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintStart_toEndOf="@+id/tableLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/tableLayout2" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <EditText
+        android:id="@+id/id_name_debeter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="10dp"
+        android:ems="10"
+        android:hint="Kto pożyczył?"
+        android:inputType="textPersonName"
+        android:padding="5dp" />
 
-            <TextView
-                android:id="@+id/textView13"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="0dp"
-                android:text="Dłużnik"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-        </TableRow>
+    <EditText
+        android:id="@+id/id_debeter_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="10dp"
+        android:ems="10"
+        android:hint="Ile pożyczył?"
+        android:inputType="textPersonName"
+        android:padding="5dp" />
 
-        <TableRow
-            android:layout_width="256dp"
-            android:layout_height="match_parent"
-            android:padding="8dp"
-            android:paddingTop="28dp">
+    <EditText
+        android:id="@+id/id_debeter_contact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="10dp"
+        android:ems="10"
+        android:hint="Kontak"
+        android:inputType="textPersonName"
+        android:padding="5dp" />
 
-            <TextView
-                android:id="@+id/textView11"
-                android:layout_width="77dp"
-                android:layout_height="34dp"
-                android:layout_marginLeft="8dp"
-                android:text="Nazwa"
-                android:textStyle="bold" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_gravity="center_horizontal">
 
-            <EditText
-                android:id="@+id/id_name_debeter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:padding="5dp" />
 
-        </TableRow>
+        <Button
+            android:id="@+id/id_debeter_button_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="40dp"
+            android:gravity="center_horizontal"
+            android:text="Potwierdź"
+            android:tooltipText="dodaje nowego dłużnika"/>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="8dp">
+        <Button
+            android:id="@+id/id_debeter_button_cancel"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="40dp"
+            android:gravity="center_horizontal"
+            android:text="Anuluj" />
+    </LinearLayout>
 
-            <TextView
-                android:id="@+id/id_text"
-                android:layout_width="106dp"
-                android:layout_height="34dp"
-                android:layout_marginLeft="8dp"
-                android:text="Dług"
-                android:textStyle="bold" />
+    <Button
+        android:id="@+id/id_debeter_button_symul"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:onClick="onClickToSimulation"
+        android:text="Symuluj" />
 
-            <EditText
-                android:id="@+id/id_debeter_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:padding="5dp" />
-        </TableRow>
+    <Button
+        android:id="@+id/id_debeter_butt_send_message"
+        android:layout_width="200dp"
+        android:layout_marginTop="25dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="8dp">
+        android:text="Powiadom o długu" />
 
-            <TextView
-                android:id="@+id/textView113"
-                android:layout_width="106dp"
-                android:layout_height="34dp"
-                android:layout_marginLeft="8dp"
-                android:text="Kontakt" />
-
-            <EditText
-                android:id="@+id/id_debeter_contact"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:padding="5dp" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="49dp" />
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="30dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginBottom="30dp"
-            android:gravity="center">
-
-            <Button
-                android:id="@+id/id_debeter_button_ok"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="30dp"
-                android:layout_marginBottom="20dp"
-                android:paddingRight="25dp"
-                android:text="Potwierdź" />
-
-            <Button
-                android:id="@+id/id_debeter_button_cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="30dp"
-                android:layout_marginBottom="20dp"
-                android:onClick="onClickCancel"
-                android:text="Anuluj" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="30dp"
-            android:gravity="center">
-
-            <Button
-                android:id="@+id/id_debeter_button_symul"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="30dp"
-                android:layout_marginBottom="20dp"
-                android:onClick="onClickToSimulation"
-                android:text="Symuluj" />
-
-            <Button
-                android:id="@+id/id_debeter_butt_send_message"
-                android:layout_width="134dp"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="30dp"
-                android:layout_marginBottom="20dp"
-                android:gravity="center"
-                android:text="Powiadom o długu" />
-        </TableRow>
-    </TableLayout>
-
-</android.support.constraint.ConstraintLayout>
+</android.widget.LinearLayout>

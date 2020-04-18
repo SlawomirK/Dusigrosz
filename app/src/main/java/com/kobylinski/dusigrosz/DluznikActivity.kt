@@ -12,47 +12,67 @@ import com.kobylinski.dusigrosz.model.Debeter
 import kotlinx.android.synthetic.main.activity_dluznik.*
 
 class DluznikActivity() : AppCompatActivity() {
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dluznik)
-
         saveNewDebeter()
     }
 
     private fun saveNewDebeter() {
-
         id_debeter_button_ok.setOnClickListener({
-            var debt = id_debeter_value.text.toString().trim()
-            var nameDebt = id_name_debeter.text.toString().trim()
-            var debtContact = id_debeter_contact.text.toString().trim()
-            if (correctDouble(debt)) errorStatement("Proszę wpisać liczbę w pole Dług")
-            if (isNotEmpty(nameDebt, debtContact)) {errorStatement("Prosze uzupełnić pola Imię i Kontakt")}
-          var debeter:Debeter = Debeter(nameDebt, debtContact, debt.toDouble())
-            save(debeter)
+            var debt = id_debeter_value?.text.toString().trim()
+            var nameDebt = id_name_debeter?.text.toString().trim()
+            var debtContact = id_debeter_contact?.text.toString().trim()
+            if (incorrectDouble(debt)) errorStatement("Proszę wpisać liczbę w pole Dług")
+            else if (isEmpty(nameDebt, debtContact)) {
+                errorStatement("Prosze uzupełnić pola Nazwa i Kontakt")
+            } else {
+                var debeter: Debeter = Debeter(nameDebt, debtContact, debt.toDouble())
+                save(debeter)
+            }
         })
     }
 
     private fun save(debeter: Debeter) {
         val dBHelp = DatabaseHelper(this)
-        dBHelp.inserDebeter(debeter)
+        val result = dBHelp.inserDebeter(debeter)
+        if (result == -1.toLong()) errorStatement("BłĄD DODANIA")
+        else {
+            errorStatement("DODANO")
+            resetView()
+        }
     }
 
-    private fun correctDouble(debt: String): Boolean {
-        if (debt.toDoubleOrNull() != null) return true else return false
+    private fun resetView() {
+        id_debeter_contact.setText("")
+        id_debeter_value.setText("")
+        id_name_debeter.setText("")
+        id_name_debeter.requestFocus()
+    }
+
+    private fun editDebeter(name: String, contact: String, debt: Double) {
+        id_debeter_contact.setText(" ")
+        id_debeter_value.setText(" ")
+        id_name_debeter.setText(" ")
+    }
+
+
+    private fun incorrectDouble(debt: String): Boolean {
+        if (debt.toDouble().isNaN()) return true else return false
     }
 
     private fun errorStatement(st: String) {
         Toast.makeText(
             this,
             st,
-            Toast.LENGTH_SHORT
-        )
+            Toast.LENGTH_LONG
+        ).show()
     }
 
-    private fun isNotEmpty(nameDebt: String, debtContact: String) =
-        nameDebt.length > 0 && debtContact.length > 0
+    private fun isEmpty(nameDebt: String, debtContact: String): Boolean {
+        Log.wtf("inNotEmpty", nameDebt + " " + debtContact)
+        return nameDebt.isNullOrEmpty() && debtContact.isNullOrEmpty()
+    }
 
     fun onClickToSimulation(view: View) {
         val intent = Intent(this, SymulationActivity::class.java)
