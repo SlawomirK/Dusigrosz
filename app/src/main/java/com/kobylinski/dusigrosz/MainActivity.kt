@@ -6,6 +6,7 @@ import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,8 +31,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         dB = DatabaseHelper(this)
-        val d=dB.writableDatabase
-
+        val d = dB.writableDatabase
         refreshData()
         createListView()
         sumAllDebts()
@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    public fun onClickToDebeter(view: View) {
+    fun onClickToDebeter(view: View) {
         val intent = Intent(this, DluznikActivity::class.java)
         startActivity(intent)
     }
@@ -59,11 +59,12 @@ class MainActivity : AppCompatActivity() {
         listDebt.adapter = MyAdapter(this);
     }
 
-    private class MyAdapter(context: Context) : BaseAdapter() {
+    inner class MyAdapter(context: Context) : BaseAdapter() {
         private val mContext: Context
 
         init {
             mContext = context
+
         }
 
         @SuppressLint("ViewHolder")
@@ -74,7 +75,21 @@ class MainActivity : AppCompatActivity() {
             nameTextView.text = listDebters.get(position).name
             val debt = rowMain.findViewById<TextView>(R.id.id_Debt)
             debt.text = listDebters.get(position).debt.toString() + " PLN";
+            rowSetOnClickListener(rowMain, position)
             return rowMain
+        }
+
+        private fun rowSetOnClickListener(rowMain: View, position: Int) {
+            rowMain.setOnClickListener() {
+                val debt = listDebters.get(position)
+                val intent = Intent(this@MainActivity, DluznikActivity::class.java)
+                intent.putExtra("name", debt.name)
+                intent.putExtra("phone", debt.phone)
+                intent.putExtra("debt", debt.debt)
+
+                startActivity(intent)
+                refreshData()
+            }
         }
 
         override fun getItem(position: Int): Any {
@@ -90,4 +105,8 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+}
+
+interface onDebterCardCilckListener {
+    fun onDebterClick(debeter: Debeter, position: Int)
 }
