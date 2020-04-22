@@ -82,7 +82,9 @@ cursor.close()
         return cur
     }
 
-    fun getId(name: String, phone: String): Long {
+    fun getId(debt: Debeter): Long {
+        val name=debt.name
+            val phone=debt.phone
         val db = this.writableDatabase
         val cur = db.rawQuery(
             "SELECT ${TableInfo.TABLE_COLUMN_ID} FROM ${TableInfo.TABLE_NAME} WHERE ${TableInfo.TABLE_COLUMN_NAME} = ? AND ${TableInfo.TABLE_COLUMN_CONTACT} = ?",
@@ -97,7 +99,7 @@ cursor.close()
 Log.wtf("id ",id.toString())
         return id
     }
-//TODO: znaleźć błąd z aktualizacją
+
     fun updateDebeterData(name: String,
                           debt: Double,
                           phone: String,

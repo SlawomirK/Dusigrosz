@@ -30,7 +30,8 @@ class DluznikActivity() : AppCompatActivity() {
             id_debeter_contact.setText(contact)
             id_debeter_value.setText(debt.toString())
             id_name_debeter.setText(name)
-            id= db.getId(name.toString(), contact.toString())
+            val debeter=Debeter(name.toString(),contact)
+            id= db.getId(debeter)
         }
         Log.wtf("id",id.toString())
         return id as Long

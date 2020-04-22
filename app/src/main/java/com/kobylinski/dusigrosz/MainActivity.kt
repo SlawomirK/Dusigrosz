@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,17 +14,20 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ListView
 import android.widget.TextView
+import android.widget.Toast
 import com.kobylinski.dusigrosz.database.DatabaseHelper
 import com.kobylinski.dusigrosz.model.Debeter
 
 class MainActivity : AppCompatActivity() {
 
-    internal lateinit var dB: DatabaseHelper
+    lateinit var dB: DatabaseHelper
 
     companion object {
         var listDebters: List<Debeter> = ArrayList<Debeter>()
         fun getSumOfAllDebts(): Double {
-            return listDebters.sumByDouble { it.debt }
+            val sum= listDebters.sumByDouble { it.debt }
+
+            return sum
         }
     }
 
@@ -41,8 +45,17 @@ class MainActivity : AppCompatActivity() {
         listDebters = dB.getAllDebeters()
         val listDebt = findViewById<ListView>(R.id.listView_debeters)
         listDebt.adapter = MyAdapter(this);
+        getSumOfAllDebts()
+        sumAllDebts()
     }
 
+    private fun errorStatement(st: String) {
+        Toast.makeText(
+            this,
+            st,
+            Toast.LENGTH_LONG
+        ).show()
+    }
 
     fun onClickToDebeter(view: View) {
         val intent = Intent(this, DluznikActivity::class.java)
@@ -59,12 +72,12 @@ class MainActivity : AppCompatActivity() {
         listDebt.adapter = MyAdapter(this);
     }
 
+
     inner class MyAdapter(context: Context) : BaseAdapter() {
         private val mContext: Context
 
         init {
             mContext = context
-
         }
 
         @SuppressLint("ViewHolder")
@@ -76,20 +89,58 @@ class MainActivity : AppCompatActivity() {
             val debt = rowMain.findViewById<TextView>(R.id.id_Debt)
             debt.text = listDebters.get(position).debt.toString() + " PLN";
             rowSetOnClickListener(rowMain, position)
+            rowSetOnLongClick(rowMain, position)
             return rowMain
         }
 
-        private fun rowSetOnClickListener(rowMain: View, position: Int) {
-            rowMain.setOnClickListener() {
-                val debt = listDebters.get(position)
-                val intent = Intent(this@MainActivity, DluznikActivity::class.java)
-                intent.putExtra("name", debt.name)
-                intent.putExtra("phone", debt.phone)
-                intent.putExtra("debt", debt.debt)
-
-                startActivity(intent)
-                refreshData()
+        private fun rowSetOnLongClick(rowMain: View?, position: Int) {
+            if (rowMain != null) {
+                rowMain.setOnLongClickListener() {
+                    createRemoveDialog(position)
+                    return@setOnLongClickListener true
+                }
             }
+        }
+
+        private fun createRemoveDialog(position: Int) {
+            val debeterId = dB.getId(listDebters.get(position))
+            val debeter = listDebters.get(position)
+            val builder = AlertDialog.Builder(this@MainActivity)
+            builder.setTitle("Usunięcie z listy dłużników")
+            builder.setMessage("Czy na pewno chcesz usunąć " + debeter.name + "?")
+            builder.setPositiveButton("USUŃ") { dialog, which ->
+                run {
+                    removeFromDB(debeterId, debeter)
+                }
+            }
+            builder.setNeutralButton("Anuluj") { _, _ -> errorStatement("Anulowano") }
+            val dialog: AlertDialog = builder.create()
+            dialog.show()
+        }
+
+        private fun removeFromDB(debeterId: Long, debeter: Debeter) {
+            val remove = dB.removeDebeter(debeterId.toString())
+            errorStatement("Usunięto " + debeter.name)
+            refreshData()
+        }
+
+        private fun rowSetOnClickListener(rowMain: View?, position: Int) {
+            if (rowMain != null) {
+                rowMain.setOnClickListener() {
+                    val intent = addChoiceToIntent(position)
+                    startActivity(intent)
+                    refreshData()
+                }
+            }
+        }
+
+        private fun addChoiceToIntent(position: Int): Intent {
+            val debt = listDebters.get(position)
+            val intent = Intent(this@MainActivity, DluznikActivity::class.java)
+            intent.putExtra("name", debt.name)
+            intent.putExtra("phone", debt.phone)
+            intent.putExtra("debt", debt.debt)
+            return intent
         }
 
         override fun getItem(position: Int): Any {
@@ -107,6 +158,4 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-interface onDebterCardCilckListener {
-    fun onDebterClick(debeter: Debeter, position: Int)
-}
+
