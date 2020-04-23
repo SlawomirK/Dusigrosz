@@ -21,12 +21,11 @@ import com.kobylinski.dusigrosz.model.Debeter
 class MainActivity : AppCompatActivity() {
 
     lateinit var dB: DatabaseHelper
-
+    //Todo: na jutro content provider i udostępnianie sms
     companion object {
         var listDebters: List<Debeter> = ArrayList<Debeter>()
         fun getSumOfAllDebts(): Double {
             val sum= listDebters.sumByDouble { it.debt }
-
             return sum
         }
     }
