@@ -21,7 +21,7 @@ import com.kobylinski.dusigrosz.model.Debeter
 class MainActivity : AppCompatActivity() {
 
     lateinit var dB: DatabaseHelper
-    //Todo: na jutro content provider i udostępnianie sms
+    //Todo: realizacja symulacji odliczanie sekund i odejmowanie/prowizji
     companion object {
         var listDebters: List<Debeter> = ArrayList<Debeter>()
         fun getSumOfAllDebts(): Double {
@@ -35,16 +35,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         dB = DatabaseHelper(this)
         val d = dB.writableDatabase
-        refreshData()
         createListView()
-        sumAllDebts()
+        refreshData()
     }
 
     private fun refreshData() {
         listDebters = dB.getAllDebeters()
         val listDebt = findViewById<ListView>(R.id.listView_debeters)
         listDebt.adapter = MyAdapter(this);
-        getSumOfAllDebts()
         sumAllDebts()
     }
 
@@ -91,7 +89,6 @@ class MainActivity : AppCompatActivity() {
             rowSetOnLongClick(rowMain, position)
             return rowMain
         }
-
         private fun rowSetOnLongClick(rowMain: View?, position: Int) {
             if (rowMain != null) {
                 rowMain.setOnLongClickListener() {
@@ -110,6 +107,8 @@ class MainActivity : AppCompatActivity() {
             builder.setPositiveButton("USUŃ") { dialog, which ->
                 run {
                     removeFromDB(debeterId, debeter)
+                    createListView()
+                     refreshData()
                 }
             }
             builder.setNeutralButton("Anuluj") { _, _ -> errorStatement("Anulowano") }
@@ -118,18 +117,16 @@ class MainActivity : AppCompatActivity() {
         }
 
         private fun removeFromDB(debeterId: Long, debeter: Debeter) {
-            val remove = dB.removeDebeter(debeterId.toString())
+            dB.removeDebeter(debeterId.toString())
             errorStatement("Usunięto " + debeter.name)
             refreshData()
         }
 
         private fun rowSetOnClickListener(rowMain: View?, position: Int) {
-            if (rowMain != null) {
-                rowMain.setOnClickListener() {
-                    val intent = addChoiceToIntent(position)
-                    startActivity(intent)
-                    refreshData()
-                }
+            rowMain?.setOnClickListener() {
+                val intent = addChoiceToIntent(position)
+                startActivity(intent)
+                refreshData()
             }
         }
 
