@@ -30,11 +30,19 @@
 
         <TextView
             android:id="@+id/id_symul_text_who"
-            android:layout_width="230dp"
+            android:layout_width="162dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:text="@string/txt_przyklad_sym_who"
             android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/id_symul_firstSum"
+            android:layout_width="162dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textSize="18sp"
+            android:inputType="numberDecimal"/>
 
         <Space
             android:layout_width="match_parent"
@@ -46,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:layout_marginTop="50dp"
-            android:text="@string/txt_opis_szybkSpaty" />
+            android:text="Ilość rat" />
 
         <EditText
             android:id="@+id/id_symul_timeLoan"
@@ -82,6 +90,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="28dp"
+            android:onClick="onClickSimulation"
             android:text="Symuluj" />
 
         <TextView

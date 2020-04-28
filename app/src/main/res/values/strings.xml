@@ -12,7 +12,7 @@
     <string name="txt_pole_odsetki">trzeba będzie zapłacić XXXPLN</string>
     <string name="txt_opis_szybkSpaty">Szybkość spłaty(zł/s)</string>
     <string name="txt_przyklad_sym_who">Kuba przykładowy</string>
-    <string name="txt_sym_spl">Symulacja spłaty dla:</string>
+    <string name="txt_sym_spl">Symulacja spłaty:</string>
 
 
 </resources>

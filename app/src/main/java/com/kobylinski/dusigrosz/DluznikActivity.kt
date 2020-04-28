@@ -143,7 +143,6 @@ class DluznikActivity() : AppCompatActivity() {
         val ir=id_name_debeter.text.toString()
         intent.putExtra("name",ir)
         intent.putExtra("value",id_debeter_value.text.toString())
-
         startActivity(intent)
     }
 
@@ -152,7 +151,7 @@ class DluznikActivity() : AppCompatActivity() {
         if (id_debeter_button_cancel.text.toString().equals("Powrót", ignoreCase = true)) {
             startActivity(Intent(this, MainActivity::class.java))
         } else {
-            if (areNotEmpty().and(!wasSaved)) {
+            if (areNotEmpty().or(!wasSaved)) {
                 createDialogOnNotEmptyCancel()
             } else
                 startActivity(Intent(this, MainActivity::class.java))
@@ -192,6 +191,7 @@ class DluznikActivity() : AppCompatActivity() {
         val butOk = "Rezygnuje"
         val message = "Czy na pewno chcesz zrezygnować z edycji?"
         val cancel = "Wróć do Edycji"
+
         val dialog = createDialog(title, message, butOk, cancel).create()
         dialog.show()
     }
@@ -231,8 +231,8 @@ class DluznikActivity() : AppCompatActivity() {
 
     private fun areNotEmpty(): Boolean {
         val isEmpty =
-            id_debeter_contact.text.isEmpty().and(id_debeter_value.text.isEmpty())
-                .and(id_debeter_contact.text.isEmpty())
+            id_debeter_contact.text.isEmpty().or(id_debeter_value.text.isEmpty())
+                .or(id_debeter_contact.text.isEmpty())
         return !isEmpty
     }
 }
