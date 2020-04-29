@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:layout_marginTop="30dp"
+    android:background="#814CAF50"
+    android:gravity="fill"
     android:orientation="vertical"
     tools:context=".DluznikActivity">
 
@@ -65,32 +67,36 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="121dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="30dp"
+        android:orientation="horizontal"
         android:padding="10dp">
 
 
         <Button
             android:id="@+id/id_debeter_button_ok"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="40dp"
+            android:background="#4CAF50"
+            android:foreground="@drawable/ic_person_add_black_24dp"
             android:gravity="center_horizontal"
-            android:text="Potwierdź"
             android:tooltipText="dodaje nowego dłużnika" />
 
         <Button
             android:id="@+id/id_debeter_button_cancel"
             android:layout_width="100dp"
-            android:layout_height="wrap_content"
+            android:layout_height="61dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="40dp"
+            android:background="#672924"
+            android:foreground="@drawable/ic_cancel_black_24dp"
+            android:foregroundGravity="center|fill"
             android:gravity="center_horizontal"
-            android:onClick="onClickCancel"
-            android:text="Anuluj" />
+            android:onClick="onClickCancel" />
     </LinearLayout>
 
     <Button

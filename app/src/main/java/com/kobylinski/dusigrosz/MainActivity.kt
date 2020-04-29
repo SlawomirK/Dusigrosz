@@ -3,11 +3,9 @@ package com.kobylinski.dusigrosz
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +19,8 @@ import com.kobylinski.dusigrosz.model.Debeter
 class MainActivity : AppCompatActivity() {
 
     lateinit var dB: DatabaseHelper
-    //Todo: realizacja symulacji odliczanie sekund i odejmowanie/prowizji
+
+    //Todo: wysyłanie wiadomości
     companion object {
         var listDebters: List<Debeter> = ArrayList<Debeter>()
         fun getSumOfAllDebts(): Double {
@@ -34,15 +33,24 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         dB = DatabaseHelper(this)
-        val d = dB.writableDatabase
+
         createListView()
         refreshData()
+        createActionBar()
     }
+
+    private fun createActionBar() {
+        supportActionBar?.title = "Dusigrosz/Dłużnicy"
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.setLogo(R.drawable.ic_account_balance_wallet_black_24dp)
+        supportActionBar?.setDisplayUseLogoEnabled(true)
+    }
+
 
     private fun refreshData() {
         listDebters = dB.getAllDebeters()
         val listDebt = findViewById<ListView>(R.id.listView_debeters)
-        listDebt.adapter = MyAdapter(this);
+        listDebt.adapter = MyAdapter(this)
         sumAllDebts()
     }
 
@@ -66,7 +74,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun createListView() {
         val listDebt = findViewById<ListView>(R.id.listView_debeters)
-        listDebt.adapter = MyAdapter(this);
+        listDebt.adapter = MyAdapter(this)
     }
 
 
@@ -84,14 +92,14 @@ class MainActivity : AppCompatActivity() {
             val nameTextView = rowMain.findViewById<TextView>(R.id.id_name_debt)
             nameTextView.text = listDebters.get(position).name
             val debt = rowMain.findViewById<TextView>(R.id.id_Debt)
-            debt.text = listDebters.get(position).debt.toString() + " PLN";
+            debt.text = listDebters.get(position).debt.toString() + " PLN"
             rowSetOnClickListener(rowMain, position)
             rowSetOnLongClick(rowMain, position)
             return rowMain
         }
         private fun rowSetOnLongClick(rowMain: View?, position: Int) {
             if (rowMain != null) {
-                rowMain.setOnLongClickListener() {
+                rowMain.setOnLongClickListener {
                     createRemoveDialog(position)
                     return@setOnLongClickListener true
                 }
@@ -123,7 +131,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         private fun rowSetOnClickListener(rowMain: View?, position: Int) {
-            rowMain?.setOnClickListener() {
+            rowMain?.setOnClickListener {
                 val intent = addChoiceToIntent(position)
                 startActivity(intent)
                 refreshData()

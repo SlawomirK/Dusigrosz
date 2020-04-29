@@ -4,11 +4,11 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
+import android.support.v7.app.AppCompatActivity
 import android.telephony.SmsManager
 import android.util.Log
 import android.view.View
@@ -16,12 +16,12 @@ import android.widget.Toast
 import com.kobylinski.dusigrosz.database.DatabaseHelper
 import com.kobylinski.dusigrosz.model.Debeter
 import kotlinx.android.synthetic.main.activity_dluznik.*
-import java.time.LocalDateTime
 
 
-class DluznikActivity() : AppCompatActivity() {
-    var debeter=Debeter("","",0.0)
-    lateinit var db: DatabaseHelper
+class DluznikActivity : AppCompatActivity() {
+    private var debeter = Debeter("", "", 0.0)
+    private lateinit var db: DatabaseHelper
+    private var wasSaved = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,14 +40,14 @@ class DluznikActivity() : AppCompatActivity() {
         val isNotNull = isEditable(name.orEmpty(), contact.orEmpty())
         var id: Long = -1
         if (isNotNull) {
-            id_debeter_button_ok.setText("Zmień")
+            id_debeter_button_ok.text = "Zmień"
             id_debeter_contact.setText(contact)
             id_debeter_value.setText(debt.toString())
             id_name_debeter.setText(name)
             this.debeter = Debeter(name.toString(), contact.toString(), debt)
             id = db.getId(this.debeter)
         }
-        return id as Long
+        return id
     }
 
 
@@ -62,15 +62,15 @@ class DluznikActivity() : AppCompatActivity() {
             var nameDebt = id_name_debeter.text.toString().trim()
             var debtContact = id_debeter_contact.text.toString().trim()
             val isEdit = isEditable(nameDebt, debtContact)
-            this.debeter= Debeter(nameDebt,debtContact,debt.toDouble())
 
             if (isEdit) {
+                this.debeter = Debeter(nameDebt, debtContact, debt.toDouble())
                 if (!isInDatabase) {
                     save(this.debeter)
                 } else {
                     updateDebeter(nameDebt, debt, debtContact, inDB)
                 }
-                id_debeter_button_cancel.setText("Powrót")
+                id_debeter_button_cancel.text = "Powrót"
             } else {
                 wrongDebetersFields()
             }
@@ -79,7 +79,7 @@ class DluznikActivity() : AppCompatActivity() {
 
     private fun updateDebeter(nameDebt: String, debt: String, debtContact: String, inDB: Long) {
 
-        val UpdateOk = db?.updateDebeterData(nameDebt, debt.toDouble(), debtContact, inDB)
+        val UpdateOk = db.updateDebeterData(nameDebt, debt.toDouble(), debtContact, inDB)
         if (UpdateOk!!) {
             errorStatement("ZAKTUALIZOWANO")
         } else errorStatement("BŁĄD AKTUALIZACJI")
@@ -105,7 +105,7 @@ class DluznikActivity() : AppCompatActivity() {
         return debterIsCorrect
     }
 
-    private var wasSaved = false
+
 
     private fun save(debeter: Debeter) {
         if (checkDepterToSave(debeter.debt.toString(), debeter.name, debeter.phone)) {
@@ -123,7 +123,7 @@ class DluznikActivity() : AppCompatActivity() {
 
 
     private fun incorrectDouble(debt: String): Boolean {
-        return !debt.isNullOrEmpty().or(!debt?.toDouble().isNaN())
+        return !debt.isNullOrEmpty().or(!debt.toDouble().isNaN())
     }
 
     private fun errorStatement(st: String) {
