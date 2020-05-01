@@ -99,12 +99,12 @@
 
     <android.support.design.widget.FloatingActionButton
 
-        android:layout_width="74dp"
+        android:layout_width="106dp"
         android:layout_height="82dp"
 
-        android:layout_marginStart="76dp"
+        android:layout_marginStart="96dp"
 
-        android:layout_marginLeft="76dp"
+        android:layout_marginLeft="96dp"
 
         android:background="@color/colorPrimaryDark"
         android:backgroundTint="@color/colorPrimary"
@@ -114,18 +114,18 @@
         android:fitsSystemWindows="false"
         android:focusable="auto"
         android:foreground="@drawable/ic_group_add_black_24dp"
-        android:foregroundGravity="fill"
+        android:foregroundGravity="center|fill_vertical"
+
         android:onClick="onClickToDebeter"
 
-        android:padding="45dp"
-
-        android:scaleType="fitCenter"
+        android:padding="8dp"
+        android:scaleType="center"
         android:visibility="visible"
         app:backgroundTint="#673AB7"
         app:borderWidth="1dp"
         app:elevation="1dp"
         app:fabCustomSize="40dp"
-        app:fabSize="auto"
+        app:fabSize="normal"
         app:layout_constraintStart_toEndOf="@+id/text_sumDebts"
         app:layout_constraintTop_toBottomOf="@+id/listView_debeters"
         app:maxImageSize="78dp"

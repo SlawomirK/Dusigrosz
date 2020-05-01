@@ -13,6 +13,7 @@ import android.widget.BaseAdapter
 import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
+import com.kobylinski.dusigrosz.activity.DluznikActivity
 import com.kobylinski.dusigrosz.database.DatabaseHelper
 import com.kobylinski.dusigrosz.model.Debeter
 
@@ -37,6 +38,7 @@ class MainActivity : AppCompatActivity() {
         createListView()
         refreshData()
         createActionBar()
+
     }
 
     private fun createActionBar() {

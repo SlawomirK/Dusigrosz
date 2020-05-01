@@ -1,15 +1,14 @@
-package com.kobylinski.dusigrosz
+package com.kobylinski.dusigrosz.activity
 
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
+import com.kobylinski.dusigrosz.R
+import com.kobylinski.dusigrosz.helpers.CreateDialog
 import kotlinx.android.synthetic.main.activity_symulation.*
 import java.math.BigDecimal
-import java.math.RoundingMode
-import java.text.DecimalFormat
-import kotlin.properties.Delegates
 
 
 class SymulationActivity : AppCompatActivity() {
@@ -55,11 +54,11 @@ class SymulationActivity : AppCompatActivity() {
             Log.wtf("pozostału czas",pozostalyCzas.toString())
             ti.start()
             isTimerRunning = true
-            id_symul_button_symuluj.setText("Zatrzymaj")
+            id_symul_button_symuluj.text = "Zatrzymaj"
         } else {
             ti.cancel()
             isTimerRunning = false
-            id_symul_button_symuluj.setText("symuluj")
+            id_symul_button_symuluj.text = "symuluj"
         }
     }
 
@@ -81,14 +80,16 @@ class SymulationActivity : AppCompatActivity() {
            }
 
            override fun onFinish() {
-            id_symul_firstSum.setText("spłacone!")
+               id_symul_firstSum.text = "spłacone!"
         }
     }
 
 
     private fun checkCorrectness(field: String, alertText: String): Boolean {
         var bol = false
-        if (isNotDouble(field)) CreateDialog(alertText) else bol = true
+        if (isNotDouble(field)) CreateDialog(
+            alertText
+        ) else bol = true
         return bol
     }
 

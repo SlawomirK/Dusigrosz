@@ -9,7 +9,7 @@
     android:background="#814CAF50"
     android:gravity="fill"
     android:orientation="vertical"
-    tools:context=".DluznikActivity">
+    tools:context=".activity.DluznikActivity">
 
     <TextView
         android:id="@+id/textView13"

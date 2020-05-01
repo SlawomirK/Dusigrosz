@@ -1,4 +1,4 @@
-package com.kobylinski.dusigrosz
+package com.kobylinski.dusigrosz.activity
 
 import android.Manifest
 import android.content.Intent
@@ -13,6 +13,8 @@ import android.telephony.SmsManager
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import com.kobylinski.dusigrosz.MainActivity
+import com.kobylinski.dusigrosz.R
 import com.kobylinski.dusigrosz.database.DatabaseHelper
 import com.kobylinski.dusigrosz.model.Debeter
 import kotlinx.android.synthetic.main.activity_dluznik.*
@@ -141,9 +143,14 @@ class DluznikActivity : AppCompatActivity() {
     fun onClickToSimulation(view: View) {
         val intent = Intent(this, SymulationActivity::class.java)
         val ir=id_name_debeter.text.toString()
-        intent.putExtra("name",ir)
-        intent.putExtra("value",id_debeter_value.text.toString())
-        startActivity(intent)
+        val debt = id_debeter_value.text.toString()
+        if (ir.isNotEmpty() and debt.isNotEmpty()) {
+            intent.putExtra("name",ir)
+            intent.putExtra("value", debt)
+            startActivity(intent)
+        } else {
+            errorStatement("pola name i value w tym przypadku nie mogą być puste")
+        }
     }
 
 

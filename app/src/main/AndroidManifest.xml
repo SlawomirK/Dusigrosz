@@ -11,11 +11,10 @@
 
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".SymulationActivity"
+        <activity android:name=".activity.SymulationActivity"
 
             />
-        <activity android:name=".DluznikActivity" />
+        <activity android:name=".activity.DluznikActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
