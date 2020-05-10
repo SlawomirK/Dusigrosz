@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
             val sum= listDebters.sumByDouble { it.debt }
             return sum
         }
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,36 +82,30 @@ class MainActivity : AppCompatActivity() {
 
 
     inner class MyAdapter(context: Context) : BaseAdapter() {
-        private val mContext: Context
-
-        init {
-            mContext = context
-        }
+        private val mContext: Context = context
 
         @SuppressLint("ViewHolder")
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             val layoutInflater = LayoutInflater.from(mContext)
             val rowMain = layoutInflater.inflate(R.layout.row_main, parent, false)
             val nameTextView = rowMain.findViewById<TextView>(R.id.id_name_debt)
-            nameTextView.text = listDebters.get(position).name
+            nameTextView.text = listDebters[position].name
             val debt = rowMain.findViewById<TextView>(R.id.id_Debt)
-            debt.text = listDebters.get(position).debt.toString() + " PLN"
+            debt.text = listDebters[position].debt.toString() + " PLN"
             rowSetOnClickListener(rowMain, position)
             rowSetOnLongClick(rowMain, position)
             return rowMain
         }
         private fun rowSetOnLongClick(rowMain: View?, position: Int) {
-            if (rowMain != null) {
-                rowMain.setOnLongClickListener {
-                    createRemoveDialog(position)
-                    return@setOnLongClickListener true
-                }
+            rowMain?.setOnLongClickListener {
+                createRemoveDialog(position)
+                return@setOnLongClickListener true
             }
         }
 
         private fun createRemoveDialog(position: Int) {
-            val debeterId = dB.getId(listDebters.get(position))
-            val debeter = listDebters.get(position)
+            val debeterId = dB.getId(listDebters[position])
+            val debeter = listDebters[position]
             val builder = AlertDialog.Builder(this@MainActivity)
             builder.setTitle("Usunięcie z listy dłużników")
             builder.setMessage("Czy na pewno chcesz usunąć " + debeter.name + "?")
@@ -150,7 +145,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun getItem(position: Int): Any {
-            return listDebters.get(position)
+            return listDebters[position]
         }
 
         override fun getItemId(position: Int): Long {

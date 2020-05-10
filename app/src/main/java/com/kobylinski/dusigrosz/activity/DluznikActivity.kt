@@ -10,7 +10,6 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.telephony.SmsManager
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.kobylinski.dusigrosz.MainActivity
@@ -52,13 +51,11 @@ class DluznikActivity : AppCompatActivity() {
         return id
     }
 
-
     private fun isEditable(nameDebt: String, contact: String): Boolean =
         nameDebt.isNotEmpty() and (contact.isNotEmpty())
 
-
     private fun saveDebeter(inDB: Long) {
-        val isInDatabase = id_debeter_button_ok.text.equals("Zmień")
+        val isInDatabase = id_debeter_button_ok.text == "Zmień"
         id_debeter_button_ok.setOnClickListener {
             var debt = id_debeter_value.text.toString().trim()
             var nameDebt = id_name_debeter.text.toString().trim()
@@ -107,15 +104,13 @@ class DluznikActivity : AppCompatActivity() {
         return debterIsCorrect
     }
 
-
-
     private fun save(debeter: Debeter) {
         if (checkDepterToSave(debeter.debt.toString(), debeter.name, debeter.phone)) {
             val result = db.inserDebeter(debeter)
             val isInDB = setValuesDebterActivity()
-            Log.wtf("is in db sava",isInDB.toString())
-            if (!isInDB.equals(-1.toLong())) errorStatement("Dłużnik już jest w bazie")
-            else if (result == -1.toLong()) errorStatement("Błąd dodania")
+
+            if (isInDB != (-1).toLong()) errorStatement("Dłużnik już jest w bazie")
+            else if (result == (-1).toLong()) errorStatement("Błąd dodania")
             else {
                 errorStatement("DODANO")
                 wasSaved = true
@@ -142,10 +137,10 @@ class DluznikActivity : AppCompatActivity() {
 
     fun onClickToSimulation(view: View) {
         val intent = Intent(this, SymulationActivity::class.java)
-        val ir=id_name_debeter.text.toString()
+        val ir = id_name_debeter.text.toString()
         val debt = id_debeter_value.text.toString()
         if (ir.isNotEmpty() and debt.isNotEmpty()) {
-            intent.putExtra("name",ir)
+            intent.putExtra("name", ir)
             intent.putExtra("value", debt)
             startActivity(intent)
         } else {
@@ -203,7 +198,11 @@ class DluznikActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int,permissions: Array<out String>,grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
         when (requestCode) {
@@ -222,7 +221,8 @@ class DluznikActivity : AppCompatActivity() {
         title: String,
         body: String,
         butOk: String,
-        ButCancel: String): AlertDialog.Builder {
+        ButCancel: String
+    ): AlertDialog.Builder {
         val intent = Intent(this, MainActivity::class.java)
         val builder = AlertDialog.Builder(this)
         builder.setTitle(title)
