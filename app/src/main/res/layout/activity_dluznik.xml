@@ -81,9 +81,8 @@
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="40dp"
-            android:background="#4CAF50"
-            android:foreground="@drawable/ic_person_add_black_24dp"
-            android:gravity="center_horizontal"
+            android:gravity="center|center_horizontal"
+            android:text="Zapisz"
             android:tooltipText="dodaje nowego dłużnika" />
 
         <Button
@@ -92,11 +91,10 @@
             android:layout_height="61dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="40dp"
-            android:background="#672924"
-            android:foreground="@drawable/ic_cancel_black_24dp"
             android:foregroundGravity="center|fill"
-            android:gravity="center_horizontal"
-            android:onClick="onClickCancel" />
+            android:gravity="center|center_horizontal"
+            android:onClick="onClickCancel"
+            android:text="Anuluj" />
     </LinearLayout>
 
     <Button

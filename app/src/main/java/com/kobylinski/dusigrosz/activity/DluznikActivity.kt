@@ -11,10 +11,10 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.telephony.SmsManager
 import android.view.View
-import android.widget.Toast
 import com.kobylinski.dusigrosz.MainActivity
 import com.kobylinski.dusigrosz.R
 import com.kobylinski.dusigrosz.database.DatabaseHelper
+import com.kobylinski.dusigrosz.helpers.CreateDialog.Companion.showToast
 import com.kobylinski.dusigrosz.model.Debeter
 import kotlinx.android.synthetic.main.activity_dluznik.*
 
@@ -30,7 +30,6 @@ class DluznikActivity : AppCompatActivity() {
         db = DatabaseHelper(this)
         val isInDB: Long = setValuesDebterActivity()
         saveDebeter(isInDB)
-
     }
 
     private fun setValuesDebterActivity(): Long {
@@ -80,12 +79,12 @@ class DluznikActivity : AppCompatActivity() {
 
         val UpdateOk = db.updateDebeterData(nameDebt, debt.toDouble(), debtContact, inDB)
         if (UpdateOk!!) {
-            errorStatement("ZAKTUALIZOWANO")
-        } else errorStatement("BŁĄD AKTUALIZACJI")
+            showToast("ZAKTUALIZOWANO", this)
+        } else showToast("BŁĄD AKTUALIZACJI", this)
     }
 
     fun wrongDebetersFields() {
-        errorStatement("Uzupełnij wymagane dane")
+        showToast("Uzupełnij wymagane dane", this)
         id_name_debeter.setHintTextColor(Color.RED)
         id_debeter_contact.setHintTextColor(Color.RED)
 
@@ -95,9 +94,9 @@ class DluznikActivity : AppCompatActivity() {
         val incorect = incorrectDouble(debt)
         var debeter: Debeter = Debeter("", "", 0.0)
         var debterIsCorrect = false
-        if (incorect) errorStatement("Proszę wpisać liczbę w pole Dług")
+        if (incorect) showToast("Proszę wpisać liczbę w pole Dług", this)
         else if (isEmpty(nameDebt, debtContact)) {
-            errorStatement("Prosze uzupełnić pola Nazwa i Kontakt")
+            showToast("Prosze uzupełnić pola Nazwa i Kontakt", this)
         } else {
             debterIsCorrect = true
         }
@@ -109,10 +108,10 @@ class DluznikActivity : AppCompatActivity() {
             val result = db.inserDebeter(debeter)
             val isInDB = setValuesDebterActivity()
 
-            if (isInDB != (-1).toLong()) errorStatement("Dłużnik już jest w bazie")
-            else if (result == (-1).toLong()) errorStatement("Błąd dodania")
+            if (isInDB != (-1).toLong()) showToast("Dłużnik już jest w bazie", this)
+            else if (result == (-1).toLong()) showToast("Błąd dodania", this)
             else {
-                errorStatement("DODANO")
+                showToast("DODANO", this)
                 wasSaved = true
             }
         }
@@ -121,14 +120,6 @@ class DluznikActivity : AppCompatActivity() {
 
     private fun incorrectDouble(debt: String): Boolean {
         return !debt.isNullOrEmpty().or(!debt.toDouble().isNaN())
-    }
-
-    private fun errorStatement(st: String) {
-        Toast.makeText(
-            this,
-            st,
-            Toast.LENGTH_LONG
-        ).show()
     }
 
     private fun isEmpty(nameDebt: String, debtContact: String): Boolean {
@@ -144,7 +135,7 @@ class DluznikActivity : AppCompatActivity() {
             intent.putExtra("value", debt)
             startActivity(intent)
         } else {
-            errorStatement("pola name i value w tym przypadku nie mogą być puste")
+            showToast("pola name i value w tym przypadku nie mogą być puste", this)
         }
     }
 
@@ -184,8 +175,8 @@ class DluznikActivity : AppCompatActivity() {
             val debt = debt
             val textMessage = "Pożyczyłeś od właściciela tego numer $debt zł"
             obj.sendTextMessage(telNumber, null, textMessage, null, null)
-            errorStatement("Wysłano potwierdzenie")
-        } else errorStatement("Nie wysłano")
+            showToast("Wysłano potwierdzenie", this)
+        } else showToast("Nie wysłano", this)
     }
 
     private fun createDialogOnNotEmptyCancel() {
@@ -207,13 +198,13 @@ class DluznikActivity : AppCompatActivity() {
 
         when (requestCode) {
             0 -> {
-                if (grantResults.size >= 0 && grantResults.get(0) == PackageManager.PERMISSION_GRANTED)
+                if (grantResults.size >= 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                     whenPermissionGranted()
                 else {
-                    errorStatement("Wymagana zgoda na wysyłanie SMS")
+                    showToast("Wymagana zgoda na wysyłanie SMS", this)
                 }
             }
-            else -> errorStatement("Nie dałeś zgody na wysyłanie SMS")
+            else -> showToast("Nie dałeś zgody na wysyłanie SMS", this)
         }
     }
 
@@ -227,7 +218,7 @@ class DluznikActivity : AppCompatActivity() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle(title)
         builder.setMessage(body)
-        builder.setPositiveButton(butOk) { dialog, which ->
+        builder.setPositiveButton(butOk) { _, _ ->
             run {
                 startActivity(intent)
             }

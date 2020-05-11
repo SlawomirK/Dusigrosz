@@ -14,7 +14,7 @@ import java.math.BigDecimal
 class SymulationActivity : AppCompatActivity() {
     private lateinit var ti: MyCountDownTimer
     private var isTimerRunning: Boolean = false
-    private var prowizja: BigDecimal= BigDecimal.ZERO
+    private var prowizja: BigDecimal = BigDecimal.ZERO
 
     private var pozostalyCzas: Long = 0
     private lateinit var pozostalaKwota: BigDecimal
@@ -48,21 +48,24 @@ class SymulationActivity : AppCompatActivity() {
             startSymulation(loanInterest, pozostalyCzas)
         }
     }
+
     private fun startSymulation(rate: String, time: Long) {
         if (!isTimerRunning) {
-            ti=MyCountDownTimer(pozostalyCzas*1000,1000,rate.toBigDecimal())
-            Log.wtf("pozostału czas",pozostalyCzas.toString())
+            ti = MyCountDownTimer(pozostalyCzas * 1000, 1000, rate.toBigDecimal())
+            Log.wtf("pozostału czas", pozostalyCzas.toString())
             ti.start()
             isTimerRunning = true
             id_symul_button_symuluj.text = "Zatrzymaj"
         } else {
-            ti.cancel()
-            isTimerRunning = false
-            id_symul_button_symuluj.text = "symuluj"
+            if (id_symul_firstSum.text != "spłacone!") {
+                ti.cancel()
+                isTimerRunning = false
+                id_symul_button_symuluj.text = "symuluj"
+            }
         }
     }
 
-       inner class MyCountDownTimer(start: Long, interval: Long, val add: BigDecimal) :
+    inner class MyCountDownTimer(start: Long, interval: Long, val add: BigDecimal) :
         CountDownTimer(start, interval) {
 
         override fun onTick(infuture: Long) {
@@ -72,29 +75,29 @@ class SymulationActivity : AppCompatActivity() {
             pozostalyCzas = infuture
         }
 
-           private fun restOf() {
-               pozostalaKwota -= rata.toBigDecimal()//odejmujeRate i aktualizuje kwotę do spłaty
-               if (pozostalaKwota.toInt()>0) {
-                   id_symul_firstSum.text = pozostalaKwota.toString()
-               } else onFinish()
-           }
+        private fun restOf() {
+            pozostalaKwota -= rata.toBigDecimal()//odejmujeRate i aktualizuje kwotę do spłaty
+            if (pozostalaKwota.toInt() > 0) {
+                id_symul_firstSum.text = pozostalaKwota.toString()
+            } else onFinish()
+        }
 
-           override fun onFinish() {
-               id_symul_firstSum.text = "spłacone!"
+        override fun onFinish() {
+            ti.cancel()
+            isTimerRunning = false
+            id_symul_firstSum.text = "spłacone!"
+
         }
     }
 
 
     private fun checkCorrectness(field: String, alertText: String): Boolean {
         var bol = false
-        if (isNotDouble(field)) CreateDialog(
-            alertText
-        ) else bol = true
+        if (isNotDouble(field)) CreateDialog(alertText) else bol = true
         return bol
     }
 
     private fun isNotDouble(st: String): Boolean {
         return !st.isEmpty().or(!st.toDouble().isNaN())
     }
-
 }
