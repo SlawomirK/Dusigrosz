@@ -8,7 +8,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.TextView
 import com.kobylinski.dusigrosz.activity.DluznikActivity
-import com.kobylinski.dusigrosz.database.DatabaseHelper
+import com.kobylinski.dusigrosz.database.DatabaseHelper.MyDataBase.openDatabase
 import com.kobylinski.dusigrosz.helpers.CreateDialog.Companion.showToast
 import com.kobylinski.dusigrosz.helpers.MyAdapter1
 import com.kobylinski.dusigrosz.helpers.MyVh
@@ -17,9 +17,11 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), MyVh.iOnDebtListener {
 
-    lateinit var dB: DatabaseHelper
 
-    //Todo: wysyłanie wiadomości
+    private val dB by lazy {
+        openDatabase(this)
+    }
+
     companion object {
         var listDebters: List<Debeter> = ArrayList<Debeter>()
         fun getSumOfAllDebts(): Double {
@@ -31,7 +33,7 @@ class MainActivity : AppCompatActivity(), MyVh.iOnDebtListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        dB = DatabaseHelper(this)
+
         refreshData()
         createActionBar()
     }

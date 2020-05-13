@@ -1,12 +1,9 @@
 package com.kobylinski.dusigrosz.activity
 
-import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.telephony.SmsManager
@@ -27,7 +24,7 @@ class DluznikActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dluznik)
-        db = DatabaseHelper(this)
+        db = DatabaseHelper.openDatabase(this)
         val isInDB: Long = setValuesDebterActivity()
         saveDebeter(isInDB)
     }
@@ -36,7 +33,7 @@ class DluznikActivity : AppCompatActivity() {
         val name = intent?.getStringExtra("name")
         val contact = intent?.getStringExtra("phone")
         val debt = intent.getDoubleExtra("debt", 0.0)
-        db = DatabaseHelper(this)
+
         val isNotNull = isEditable(name.orEmpty(), contact.orEmpty())
         var id: Long = -1
         if (isNotNull) {
@@ -152,12 +149,21 @@ class DluznikActivity : AppCompatActivity() {
     }
 
     fun onClickSendSms(view: View) {
+        val debt = id_debeter_value.text.toString()
+        val textMessage = "Potwierdzenie, że pożyczyłeś ode mnie $debt zł"
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            putExtra(Intent.EXTRA_TEXT, textMessage)
+            type = "text/plain"
+        }
+        startActivity(Intent.createChooser(intent, "Udostępnij tekst w:"))
+
+        /*zgody na wysyłanie sms- wersja niezgodna ze specyfikacją
         val permisionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS)
         if (permisionCheck == PackageManager.PERMISSION_GRANTED) {
             whenPermissionGranted()
         } else {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.SEND_SMS), 0)
-        }
+        }*/
     }
 
     private fun whenPermissionGranted() {
