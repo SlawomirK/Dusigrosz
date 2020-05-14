@@ -15,9 +15,13 @@ import com.kobylinski.dusigrosz.helpers.MyVh
 import com.kobylinski.dusigrosz.model.Debeter
 import kotlinx.android.synthetic.main.activity_main.*
 
+
+/**
+ * @author Sławomir Kobyliński
+ * Pierwszy projekt zaliczeniowy z PRM na PJA
+ *
+ */
 class MainActivity : AppCompatActivity(), MyVh.iOnDebtListener {
-
-
     private val dB by lazy {
         openDatabase(this)
     }
@@ -54,7 +58,6 @@ class MainActivity : AppCompatActivity(), MyVh.iOnDebtListener {
         }
         sumAllDebts()
     }
-
 
 
     fun onClickToDebeter(view: View) {

@@ -157,13 +157,13 @@ class DluznikActivity : AppCompatActivity() {
         }
         startActivity(Intent.createChooser(intent, "Udostępnij tekst w:"))
 
-        /*zgody na wysyłanie sms- wersja niezgodna ze specyfikacją
-        val permisionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS)
-        if (permisionCheck == PackageManager.PERMISSION_GRANTED) {
-            whenPermissionGranted()
-        } else {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.SEND_SMS), 0)
-        }*/
+        // zgody na wysyłanie sms- wersja niezgodna ze specyfikacją
+        /* val permisionCheck = checkSelfPermission(this, Manifest.permission.SEND_SMS)
+         if (permisionCheck == PackageManager.PERMISSION_GRANTED) {
+             whenPermissionGranted()
+         } else {
+             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.SEND_SMS), 0)
+         }*/
     }
 
     private fun whenPermissionGranted() {
