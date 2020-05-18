@@ -74,16 +74,17 @@ class DluznikActivity : AppCompatActivity() {
 
     private fun updateDebeter(nameDebt: String, debt: String, debtContact: String, inDB: Long) {
 
-        val UpdateOk = db.updateDebeterData(nameDebt, debt.toDouble(), debtContact, inDB)
-        if (UpdateOk!!) {
+        val updateOk = db.updateDebeterData(nameDebt, debt.toDouble(), debtContact, inDB)
+        if (updateOk!!) {
             showToast("ZAKTUALIZOWANO", this)
         } else showToast("BŁĄD AKTUALIZACJI", this)
     }
 
     fun wrongDebetersFields() {
         showToast("Uzupełnij wymagane dane", this)
+
         id_name_debeter.setHintTextColor(Color.RED)
-        id_debeter_contact.setHintTextColor(Color.RED)
+
 
     }
 
@@ -92,7 +93,7 @@ class DluznikActivity : AppCompatActivity() {
         var debeter: Debeter = Debeter("", "", 0.0)
         var debterIsCorrect = false
         if (incorect) showToast("Proszę wpisać liczbę w pole Dług", this)
-        else if (isEmpty(nameDebt, debtContact)) {
+        else if (isEmpty(nameDebt)) {
             showToast("Prosze uzupełnić pola Nazwa i Kontakt", this)
         } else {
             debterIsCorrect = true
@@ -119,8 +120,8 @@ class DluznikActivity : AppCompatActivity() {
         return !debt.isNullOrEmpty().or(!debt.toDouble().isNaN())
     }
 
-    private fun isEmpty(nameDebt: String, debtContact: String): Boolean {
-        return nameDebt.isNullOrEmpty() || debtContact.isNullOrEmpty()
+    private fun isEmpty(nameDebt: String): Boolean {
+        return nameDebt.isNullOrEmpty()
     }
 
     fun onClickToSimulation(view: View) {

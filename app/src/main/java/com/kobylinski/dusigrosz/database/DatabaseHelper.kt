@@ -20,11 +20,12 @@ object TableInfo : BaseColumns {
 
 object SqlBasicComand {
     const val SQL_CREATE_TABLE: String =
-        "CREATE TABLE IF NOT EXISTS" + TableInfo.TABLE_NAME +
-                " ( " + TableInfo.TABLE_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                TableInfo.TABLE_COLUMN_NAME + " TEXT NOT NULL, " +
-                TableInfo.TABLE_COLUMN_AMOUNT + " REAL, " +
-                TableInfo.TABLE_COLUMN_CONTACT + " TEXT NOT NULL)"
+        "CREATE TABLE IF NOT EXISTS  ${TableInfo.TABLE_NAME} (" +
+                "${TableInfo.TABLE_COLUMN_ID} INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "${TableInfo.TABLE_COLUMN_NAME} TEXT NOT NULL, " +
+                "${TableInfo.TABLE_COLUMN_AMOUNT} REAL, " +
+                "${TableInfo.TABLE_COLUMN_CONTACT} TEXT NOT NULL);"
+
     const val SQL_DELETE_TABLE = "DROP TABLE IF EXISTS " + TableInfo.TABLE_NAME
 }
 

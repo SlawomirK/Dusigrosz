@@ -15,10 +15,10 @@ class SymulationActivity : AppCompatActivity() {
     private lateinit var ti: MyCountDownTimer
     private var isTimerRunning: Boolean = false
     private var prowizja: BigDecimal = BigDecimal.ZERO
-
     private var pozostalyCzas: Long = 0
     private lateinit var pozostalaKwota: BigDecimal
     private val rata: Int by lazy { pozostalaKwota.toInt() / pozostalyCzas.toInt() }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_symulation)

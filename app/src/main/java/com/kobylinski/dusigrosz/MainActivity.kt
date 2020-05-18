@@ -22,12 +22,15 @@ import kotlinx.android.synthetic.main.activity_main.*
  *
  */
 class MainActivity : AppCompatActivity(), MyVh.iOnDebtListener {
+
+
     private val dB by lazy {
         openDatabase(this)
     }
 
     companion object {
-        var listDebters: List<Debeter> = ArrayList<Debeter>()
+
+        lateinit var listDebters: List<Debeter>
         fun getSumOfAllDebts(): Double {
             val sum = listDebters.sumByDouble { it.debt }
             return sum
