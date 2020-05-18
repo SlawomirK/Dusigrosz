@@ -11,7 +11,8 @@
 
 ## O programie
 Aplikacja na Androida mająca na celu usprawnić zarządzanie informacjami o naszych dłużnikach. 
-Szczegóły wymagań w pliku [a link](https://github.com/SlawomirK/Dusigrosz/blob/master/wymagania1.pdf) 
+Szczegóły wymagań w pliku 
+[wymagania1](https://github.com/SlawomirK/Dusigrosz/blob/master/wymagania1.pdf) 
 
 ## Użycie
 Pierwsze okno wyświetla listę dłużników, sumę wszystkich długów oraz przycisk przenoszący nas do aktywnosci 
