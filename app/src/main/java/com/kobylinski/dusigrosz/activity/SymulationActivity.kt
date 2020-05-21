@@ -17,10 +17,12 @@ class SymulationActivity : AppCompatActivity() {
     private var pozostalyCzas: Long = 0
     private lateinit var pozostalaKwota: BigDecimal
     private val rata: Int by lazy { pozostalaKwota.toInt() / pozostalyCzas.toInt() }
+    private var start = BigDecimal.ZERO
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_symulation)
+        start = intent?.getStringExtra("value").toString().trim().toBigDecimal()
         createWindow()
 
     }
@@ -53,7 +55,6 @@ class SymulationActivity : AppCompatActivity() {
         //w projekcie interval byl 1000 dla siebie nie potrzebuje przerw ale gotowy wynik bez czekania
         if (!isTimerRunning) {
             ti = MyCountDownTimer(pozostalyCzas, 10, rate.toBigDecimal())
-
             ti.start()
             isTimerRunning = true
             id_symul_button_symuluj.text = "Zatrzymaj"
@@ -69,10 +70,14 @@ class SymulationActivity : AppCompatActivity() {
     inner class MyCountDownTimer(start: Long, interval: Long, val add: BigDecimal) :
         CountDownTimer(start, interval) {
 
-        override fun onTick(infuture: Long) {
-            prowizja += (pozostalaKwota.toDouble() * add.toInt() / 100).toBigDecimal()//
+        override fun onTick(infuture: Long) {//prywatnie i tak oddaje się od razu całą sumę lub w sposób
+            //nieregularny więc odsetki będą naliczane dziennie od całej sumy, niepomniejszane o raty
+            // prowizja += (pozostalaKwota.toDouble() * add.toInt() / 100).toBigDecimal()//
+
+            prowizja += (start.toDouble() * add.toInt() / 100).toBigDecimal()
+            start += (start.toDouble() * add.toInt() / 100).toBigDecimal()
             restOf()
-            id_symul_text_interests.text = "Prowizja $prowizja"
+            id_symul_text_interests.text = "Prowizja ${prowizja.toInt()} PLN"
             pozostalyCzas = infuture
         }
 

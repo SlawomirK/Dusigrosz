@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:layout_marginTop="50dp"
-            android:text="Ilość rat" />
+            android:text="Ilość dni" />
 
         <EditText
             android:id="@+id/id_symul_timeLoan"
