@@ -9,7 +9,6 @@ import android.support.annotation.RequiresApi
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.telephony.SmsManager
-import android.util.Log
 import android.view.View
 import com.kobylinski.dusigrosz.MainActivity
 import com.kobylinski.dusigrosz.R
@@ -17,7 +16,6 @@ import com.kobylinski.dusigrosz.database.DatabaseHelper
 import com.kobylinski.dusigrosz.helpers.CreateDialog.Companion.showToast
 import com.kobylinski.dusigrosz.model.Debeter
 import kotlinx.android.synthetic.main.activity_dluznik.*
-import java.time.Instant
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 
@@ -43,7 +41,6 @@ class DluznikActivity : AppCompatActivity() {
         val name = intent?.getStringExtra("name")
         val date = intent?.getStringExtra("date")
         val debt = intent.getDoubleExtra("debt", 0.0)
-
         val isNotNull = isEditable(name.orEmpty())
         var id: Long = -1
         if (isNotNull) {
@@ -51,10 +48,7 @@ class DluznikActivity : AppCompatActivity() {
             id_debeter_contact.setText(date)
             id_debeter_value.setText(debt.toString())
             id_name_debeter.setText(name)
-            Log.wtf("name", name)
-            Log.wtf("date", date)
-            Log.wtf("debt", debt.toString())
-            Log.wtf("frompage", id_debeter_contact.text.toString())
+
             this.debeter =
                 Debeter(name.toString(), LocalDate.parse(id_debeter_contact.text.trim()), debt)
             id = db.getId(this.debeter)
@@ -79,7 +73,7 @@ class DluznikActivity : AppCompatActivity() {
                 if (!isInDatabase) {
                     save(this.debeter)
                 } else {
-                    updateDebeter(nameDebt, debt, Instant.parse(date), inDB)
+                    updateDebeter(nameDebt, debt, LocalDate.parse(date), inDB)
                 }
                 id_debeter_button_cancel.text = "Powrót"
             } else {
@@ -89,7 +83,7 @@ class DluznikActivity : AppCompatActivity() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun updateDebeter(nameDebt: String, debt: String, date: Instant, inDB: Long) {
+    private fun updateDebeter(nameDebt: String, debt: String, date: LocalDate, inDB: Long) {
 
         val updateOk = db.updateDebeterData(nameDebt, debt.toDouble(), date.toString(), inDB)
         if (updateOk!!) {
