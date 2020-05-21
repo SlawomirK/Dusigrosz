@@ -3,7 +3,6 @@ package com.kobylinski.dusigrosz.activity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.View
 import com.kobylinski.dusigrosz.R
 import com.kobylinski.dusigrosz.helpers.CreateDialog
@@ -35,6 +34,7 @@ class SymulationActivity : AppCompatActivity() {
         id_symul_text_who.text = "$name musi jeszcze oddać"
         id_symul_firstSum.text = "${pozostalaKwota.toInt()} zł"
         id_symul_text_interests.text = "Prowizja: $prowizja zł"
+        id_symul_timeLoan.setText(intent?.getIntExtra("days", -1).toString())
 
     }
 
@@ -50,9 +50,10 @@ class SymulationActivity : AppCompatActivity() {
     }
 
     private fun startSymulation(rate: String, time: Long) {
+        //w projekcie interval byl 1000 dla siebie nie potrzebuje przerw ale gotowy wynik bez czekania
         if (!isTimerRunning) {
-            ti = MyCountDownTimer(pozostalyCzas * 1000, 1000, rate.toBigDecimal())
-            Log.wtf("pozostału czas", pozostalyCzas.toString())
+            ti = MyCountDownTimer(pozostalyCzas, 10, rate.toBigDecimal())
+
             ti.start()
             isTimerRunning = true
             id_symul_button_symuluj.text = "Zatrzymaj"
@@ -69,7 +70,7 @@ class SymulationActivity : AppCompatActivity() {
         CountDownTimer(start, interval) {
 
         override fun onTick(infuture: Long) {
-            prowizja += (pozostalaKwota.toDouble() * add.toInt() / 100).toBigDecimal()
+            prowizja += (pozostalaKwota.toDouble() * add.toInt() / 100).toBigDecimal()//
             restOf()
             id_symul_text_interests.text = "Prowizja $prowizja"
             pozostalyCzas = infuture
@@ -86,7 +87,6 @@ class SymulationActivity : AppCompatActivity() {
             ti.cancel()
             isTimerRunning = false
             id_symul_firstSum.text = "spłacone!"
-
         }
     }
 

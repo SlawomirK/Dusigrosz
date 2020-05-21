@@ -1,7 +1,9 @@
 package com.kobylinski.dusigrosz
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.support.annotation.RequiresApi
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -37,6 +39,7 @@ class MainActivity : AppCompatActivity(), MyVh.iOnDebtListener {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -53,6 +56,7 @@ class MainActivity : AppCompatActivity(), MyVh.iOnDebtListener {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun refreshData() {
         listDebters = dB.getAllDebeters()
         listView_debeters.apply {
@@ -73,24 +77,28 @@ class MainActivity : AppCompatActivity(), MyVh.iOnDebtListener {
         allDebts.text = getSumOfAllDebts().toString() + " PLN"
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onClick(debt: Debeter, position: Int) {
         val intent = addChoiceToIntent(position)
         startActivity(intent)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun addChoiceToIntent(position: Int): Intent {
         val debt = listDebters.get(position)
         val intent = Intent(this@MainActivity, DluznikActivity::class.java)
         intent.putExtra("name", debt.name)
-        intent.putExtra("phone", debt.phone)
+        intent.putExtra("date", debt.data.toString())
         intent.putExtra("debt", debt.debt)
         return intent
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onLongClick(debt: Debeter, position: Int) {
         createRemoveDialog(position)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun createRemoveDialog(position: Int) {
         val debeterId = dB.getId(listDebters[position])
         val debeter = listDebters[position]
@@ -108,6 +116,7 @@ class MainActivity : AppCompatActivity(), MyVh.iOnDebtListener {
         dialog.show()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun removeFromDB(debeterId: Long, debeter: Debeter) {
         dB.removeDebeter(debeterId.toString())
         showToast("Usunięto " + debeter.name, this)

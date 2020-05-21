@@ -61,8 +61,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_margin="10dp"
         android:ems="10"
-        android:hint="Kontak"
-        android:inputType="phone"
+        android:hint="Kiedy"
+        android:inputType="date"
         android:padding="5dp" />
 
     <LinearLayout

@@ -3,10 +3,13 @@ package com.kobylinski.dusigrosz.activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
+import android.support.annotation.RequiresApi
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.telephony.SmsManager
+import android.util.Log
 import android.view.View
 import com.kobylinski.dusigrosz.MainActivity
 import com.kobylinski.dusigrosz.R
@@ -14,56 +17,69 @@ import com.kobylinski.dusigrosz.database.DatabaseHelper
 import com.kobylinski.dusigrosz.helpers.CreateDialog.Companion.showToast
 import com.kobylinski.dusigrosz.model.Debeter
 import kotlinx.android.synthetic.main.activity_dluznik.*
+import java.time.Instant
+import java.time.LocalDate
+import java.time.temporal.ChronoUnit
 
 
 class DluznikActivity : AppCompatActivity() {
-    private var debeter = Debeter("", "", 0.0)
+    @RequiresApi(Build.VERSION_CODES.O)
+    private var debeter = Debeter("", LocalDate.now(), 0.0)
     private lateinit var db: DatabaseHelper
     private var wasSaved = false
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dluznik)
         db = DatabaseHelper.openDatabase(this)
         val isInDB: Long = setValuesDebterActivity()
         saveDebeter(isInDB)
+        id_debeter_contact.setText(LocalDate.now().toString())
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun setValuesDebterActivity(): Long {
         val name = intent?.getStringExtra("name")
-        val contact = intent?.getStringExtra("phone")
+        val date = intent?.getStringExtra("date")
         val debt = intent.getDoubleExtra("debt", 0.0)
 
-        val isNotNull = isEditable(name.orEmpty(), contact.orEmpty())
+        val isNotNull = isEditable(name.orEmpty())
         var id: Long = -1
         if (isNotNull) {
             id_debeter_button_ok.text = "Zmień"
-            id_debeter_contact.setText(contact)
+            id_debeter_contact.setText(date)
             id_debeter_value.setText(debt.toString())
             id_name_debeter.setText(name)
-            this.debeter = Debeter(name.toString(), contact.toString(), debt)
+            Log.wtf("name", name)
+            Log.wtf("date", date)
+            Log.wtf("debt", debt.toString())
+            Log.wtf("frompage", id_debeter_contact.text.toString())
+            this.debeter =
+                Debeter(name.toString(), LocalDate.parse(id_debeter_contact.text.trim()), debt)
             id = db.getId(this.debeter)
         }
         return id
     }
 
-    private fun isEditable(nameDebt: String, contact: String): Boolean =
-        nameDebt.isNotEmpty() and (contact.isNotEmpty())
+    private fun isEditable(nameDebt: String): Boolean =
+        !nameDebt.isNullOrEmpty()
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun saveDebeter(inDB: Long) {
         val isInDatabase = id_debeter_button_ok.text == "Zmień"
         id_debeter_button_ok.setOnClickListener {
             var debt = id_debeter_value.text.toString().trim()
             var nameDebt = id_name_debeter.text.toString().trim()
-            var debtContact = id_debeter_contact.text.toString().trim()
-            val isEdit = isEditable(nameDebt, debtContact)
+            var date = id_debeter_contact.text.toString().trim()
+            val isEdit = isEditable(nameDebt)
 
             if (isEdit) {
-                this.debeter = Debeter(nameDebt, debtContact, debt.toDouble())
+                this.debeter = Debeter(nameDebt, LocalDate.parse(date), debt.toDouble())
                 if (!isInDatabase) {
                     save(this.debeter)
                 } else {
-                    updateDebeter(nameDebt, debt, debtContact, inDB)
+                    updateDebeter(nameDebt, debt, Instant.parse(date), inDB)
                 }
                 id_debeter_button_cancel.text = "Powrót"
             } else {
@@ -72,9 +88,10 @@ class DluznikActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateDebeter(nameDebt: String, debt: String, debtContact: String, inDB: Long) {
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun updateDebeter(nameDebt: String, debt: String, date: Instant, inDB: Long) {
 
-        val updateOk = db.updateDebeterData(nameDebt, debt.toDouble(), debtContact, inDB)
+        val updateOk = db.updateDebeterData(nameDebt, debt.toDouble(), date.toString(), inDB)
         if (updateOk!!) {
             showToast("ZAKTUALIZOWANO", this)
         } else showToast("BŁĄD AKTUALIZACJI", this)
@@ -88,21 +105,23 @@ class DluznikActivity : AppCompatActivity() {
 
     }
 
-    private fun checkDepterToSave(debt: String, nameDebt: String, debtContact: String): Boolean {
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun checkDepterToSave(debt: String, nameDebt: String, debtContact: LocalDate): Boolean {
         val incorect = incorrectDouble(debt)
-        var debeter: Debeter = Debeter("", "", 0.0)
+        var debeter: Debeter = Debeter("", LocalDate.now(), 0.0)
         var debterIsCorrect = false
         if (incorect) showToast("Proszę wpisać liczbę w pole Dług", this)
         else if (isEmpty(nameDebt)) {
-            showToast("Prosze uzupełnić pola Nazwa i Kontakt", this)
+            showToast("Prosze uzupełnić pola Nazwa i Data", this)
         } else {
             debterIsCorrect = true
         }
         return debterIsCorrect
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun save(debeter: Debeter) {
-        if (checkDepterToSave(debeter.debt.toString(), debeter.name, debeter.phone)) {
+        if (checkDepterToSave(debeter.debt.toString(), debeter.name, debeter.data)) {
             val result = db.inserDebeter(debeter)
             val isInDB = setValuesDebterActivity()
 
@@ -124,6 +143,7 @@ class DluznikActivity : AppCompatActivity() {
         return nameDebt.isNullOrEmpty()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun onClickToSimulation(view: View) {
         val intent = Intent(this, SymulationActivity::class.java)
         val ir = id_name_debeter.text.toString()
@@ -131,6 +151,7 @@ class DluznikActivity : AppCompatActivity() {
         if (ir.isNotEmpty() and debt.isNotEmpty()) {
             intent.putExtra("name", ir)
             intent.putExtra("value", debt)
+            intent.putExtra("days", ChronoUnit.DAYS.between(debeter.data, LocalDate.now()).toInt())
             startActivity(intent)
         } else {
             showToast("pola name i value w tym przypadku nie mogą być puste", this)
@@ -167,21 +188,22 @@ class DluznikActivity : AppCompatActivity() {
          }*/
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun whenPermissionGranted() {
-        val phone = id_debeter_contact.text.toString()
+        val date = LocalDate.parse(id_debeter_contact.text.toString())
         val debt = id_debeter_value.text.toString()
 
         val debterComplete = checkDepterToSave(
             debt,
             id_name_debeter.text.toString(),
-            phone
+            date
         )
         val obj = SmsManager.getDefault()
         if (debterComplete) {
-            val telNumber = phone
+            val date = date
             val debt = debt
-            val textMessage = "Pożyczyłeś od właściciela tego numer $debt zł"
-            obj.sendTextMessage(telNumber, null, textMessage, null, null)
+            val textMessage = "Pożyczyłeś $date od właściciela tego numer $debt zł"
+            obj.sendTextMessage(null, null, textMessage, null, null)
             showToast("Wysłano potwierdzenie", this)
         } else showToast("Nie wysłano", this)
     }
@@ -196,6 +218,7 @@ class DluznikActivity : AppCompatActivity() {
         dialog.show()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,

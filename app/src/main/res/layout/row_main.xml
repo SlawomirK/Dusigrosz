@@ -2,7 +2,6 @@
 
 <android.support.design.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="12dp"
@@ -13,7 +12,7 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="69dp">
 
         <TextView
             android:id="@+id/id_name_debt"
@@ -41,6 +40,40 @@
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="@+id/id_name_debt"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/id_data"
+            android:layout_width="106dp"
+            android:layout_height="23dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="371dp"
+            android:layout_marginRight="371dp"
+            android:layout_marginBottom="3dp"
+            android:text="data"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/id_name_debt"
+            app:layout_constraintVertical_bias="0.75" />
+
+        <TextView
+            android:id="@+id/id_dniPorzyczki"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="97dp"
+            android:layout_marginLeft="97dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="109dp"
+            android:layout_marginRight="109dp"
+            android:layout_marginBottom="6dp"
+            android:text="Dni porzyczki"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/id_data"
+            app:layout_constraintTop_toBottomOf="@+id/id_Debt" />
     </android.support.constraint.ConstraintLayout>
 
 </android.support.design.card.MaterialCardView>
