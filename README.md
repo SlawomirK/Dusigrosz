@@ -13,6 +13,8 @@
 Aplikacja na Androida mająca na celu usprawnić zarządzanie informacjami o naszych dłużnikach. 
 Szczegóły wymagań w pliku 
 [wymagania1](https://github.com/SlawomirK/Dusigrosz/blob/master/wymagania1.pdf) 
+Ostatnie commity zmieniły nieco funkcjonalność aby dostosować program do moich prywatnych potrzeb. Dodano funkcjonalność zliczania dni,
+zmieniono sposób liczenia odsetetek, zapisywanie daty umowy pożyczki itd..
 
 ## Użycie
 Pierwsze okno wyświetla listę dłużników, sumę wszystkich długów oraz przycisk przenoszący nas do aktywnosci 
