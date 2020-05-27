@@ -34,8 +34,7 @@ class MainActivity : AppCompatActivity(), MyVh.iOnDebtListener {
 
         lateinit var listDebters: List<Debeter>
         fun getSumOfAllDebts(): Double {
-            val sum = listDebters.sumByDouble { it.debt }
-            return sum
+            return listDebters.sumByDouble { it.debt!! }
         }
     }
 
@@ -85,7 +84,7 @@ class MainActivity : AppCompatActivity(), MyVh.iOnDebtListener {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun addChoiceToIntent(position: Int): Intent {
-        val debt = listDebters.get(position)
+        val debt = listDebters[position]
         val intent = Intent(this@MainActivity, DluznikActivity::class.java)
         intent.putExtra("name", debt.name)
         intent.putExtra("date", debt.data.toString())

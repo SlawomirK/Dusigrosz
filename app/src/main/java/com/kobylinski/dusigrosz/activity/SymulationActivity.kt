@@ -1,5 +1,6 @@
 package com.kobylinski.dusigrosz.activity
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.support.v7.app.AppCompatActivity
@@ -8,6 +9,8 @@ import com.kobylinski.dusigrosz.R
 import com.kobylinski.dusigrosz.helpers.CreateDialog
 import kotlinx.android.synthetic.main.activity_symulation.*
 import java.math.BigDecimal
+import java.text.NumberFormat
+import java.util.*
 
 
 class SymulationActivity : AppCompatActivity() {
@@ -40,6 +43,7 @@ class SymulationActivity : AppCompatActivity() {
 
     }
 
+    @SuppressLint("SetTextI18n")
     fun onClickSimulation(view: View) {
         val loanInterest = id_sym_prow.text.trim().toString()//odsetki
         val timeLoan = id_symul_timeLoan.text.trim().toString()//czas
@@ -47,8 +51,13 @@ class SymulationActivity : AppCompatActivity() {
         if (checkCorrectness(loanInterest, "Pole odsetek niepoprawnie wypełnione")
             and checkCorrectness(timeLoan, "Pole okresu spłaty niepoprawnie wypełnione")
         ) {
-            startSymulation(loanInterest, pozostalyCzas)
+            //  startSymulation(loanInterest, pozostalyCzas)
+            val dzienne = (start.toDouble() * (loanInterest.toDouble() / 100) / 365)
+            prowizja = (dzienne * timeLoan.toDouble()).toBigDecimal()
         }
+        val locale = Locale("pl", "PL")
+        id_symul_text_interests.text =
+            "Prowizja ${NumberFormat.getCurrencyInstance(locale).format(prowizja)}"
     }
 
     private fun startSymulation(rate: String, time: Long) {
@@ -67,14 +76,14 @@ class SymulationActivity : AppCompatActivity() {
         }
     }
 
-    inner class MyCountDownTimer(start: Long, interval: Long, val add: BigDecimal) :
+    inner class MyCountDownTimer(start: Long, interval: Long, private val add: BigDecimal) :
         CountDownTimer(start, interval) {
 
         override fun onTick(infuture: Long) {//prywatnie i tak oddaje się od razu całą sumę lub w sposób
             //nieregularny więc odsetki będą naliczane dziennie od całej sumy, niepomniejszane o raty
-            // prowizja += (pozostalaKwota.toDouble() * add.toInt() / 100).toBigDecimal()//
+            prowizja += ((pozostalaKwota.toDouble() * add.toInt() / 100)).toBigDecimal()//
+//ustalę odsetki tak jak się liczy zazwyczaj na sztywno
 
-            prowizja += (start.toDouble() * add.toInt() / 100).toBigDecimal()
             start += (start.toDouble() * add.toInt() / 100).toBigDecimal()
             restOf()
             id_symul_text_interests.text = "Prowizja ${prowizja.toInt()} PLN"

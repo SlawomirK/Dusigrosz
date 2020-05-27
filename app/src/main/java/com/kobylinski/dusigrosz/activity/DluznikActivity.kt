@@ -9,6 +9,7 @@ import android.support.annotation.RequiresApi
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.telephony.SmsManager
+import android.util.Log
 import android.view.View
 import com.kobylinski.dusigrosz.MainActivity
 import com.kobylinski.dusigrosz.R
@@ -30,25 +31,27 @@ class DluznikActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dluznik)
+        id_debeter_contact.setText(LocalDate.now().toString())
         db = DatabaseHelper.openDatabase(this)
         val isInDB: Long = setValuesDebterActivity()
         saveDebeter(isInDB)
-        id_debeter_contact.setText(LocalDate.now().toString())
+
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setValuesDebterActivity(): Long {
         val name = intent?.getStringExtra("name")
         val date = intent?.getStringExtra("date")
-        val debt = intent.getDoubleExtra("debt", 0.0)
+        val debt = intent?.getDoubleExtra("debt", 0.0)
         val isNotNull = isEditable(name.orEmpty())
+        println("is not null " + isNotNull)
         var id: Long = -1
         if (isNotNull) {
             id_debeter_button_ok.text = "Zmień"
             id_debeter_contact.setText(date)
             id_debeter_value.setText(debt.toString())
             id_name_debeter.setText(name)
-
+            Log.d("Ooooooooo", date)
             this.debeter =
                 Debeter(name.toString(), LocalDate.parse(id_debeter_contact.text.trim()), debt)
             id = db.getId(this.debeter)
