@@ -21,7 +21,7 @@ Pierwsze okno wyświetla listę dłużników, sumę wszystkich długów oraz prz
 umożliwiajacej dodanie nowego dłużnika do listy. Kliknięcie krótkie na jednej z pozycji listy umożwila edycję dłużnika.
 Długie usuwa go z listy.
 Okno edycji/dodawania nowego ma funkcję wysłania powiadomienia dowolnym kanałem oraz przejście do aktywności umożliwiającej symulację
-dzięki której możemy określić wysokość prowizji uzależnionej od ilości rat i ustalonego procentu na który pożyczymy
+dzięki której możemy określić wysokość prowizji uzależnionej od ilości rat i ustalonego procentu na który pożyczymy o ile zdecydujemy się sprawdzić taką ewentualność.
 
 ## Powód powstania
 Program na zaliczenie ale po modyfikacjach stał się moim zdaniem przydatnym narzędziem do uporządkowania informacji o długach jakie mają wobec nas znajmoi czy klienci.
