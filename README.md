@@ -5,7 +5,7 @@
 * [O programie](#o-programie)
 * [Użycie](#użycie)
 * [Powód powstania](#powód-powstania)
-* [To-do list](#to-do-list)
+
 
 
 
@@ -26,6 +26,4 @@ dzięki której możemy określić wysokość prowizji uzależnionej od ilości 
 ## Powód powstania
 Program na zaliczenie ale po modyfikacjach stał się moim zdaniem przydatnym narzędziem do uporządkowania informacji o długach jakie mają wobec nas znajmoi czy klienci.
 
-## To-do list:
-* Podstawowe zadanie wykonuje ale funkcje typu wysyłania powiadomień, dodawanie kontaktu czy symulacje można poprawić, 
-aby były bardziej praktyczne i "życiowe".
+
