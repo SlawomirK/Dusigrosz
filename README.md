@@ -24,8 +24,8 @@ Okno edycji/dodawania nowego ma funkcję wysłania powiadomienia dowolnym kanał
 dzięki której możemy określić wysokość prowizji uzależnionej od ilości rat i ustalonego procentu na który pożyczymy
 
 ## Powód powstania
-Projekt na zaliczenie ale posiada także pewne zalety użytkowe gdy ktoś gubi się w tym ile i co komu pożyczył 
+Program na zaliczenie ale po modyfikacjach stał się moim zdaniem przydatnym narzędziem do uporządkowania informacji o długach jakie mają wobec nas znajmoi czy klienci.
 
 ## To-do list:
-* Podstawowe zadanie wykonuje ale funkcje typu wysyłania powiadomień, dodawanie kontaktu czy symuacje można poprawić 
+* Podstawowe zadanie wykonuje ale funkcje typu wysyłania powiadomień, dodawanie kontaktu czy symulacje można poprawić, 
 aby były bardziej praktyczne i "życiowe".
