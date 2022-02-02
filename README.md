@@ -24,6 +24,6 @@ Okno edycji/dodawania nowego ma funkcję wysłania powiadomienia dowolnym kanał
 dzięki której możemy określić wysokość prowizji uzależnionej od ilości rat i ustalonego procentu na który pożyczymy, o ile zdecydujemy się sprawdzić taką ewentualność.
 
 ## Powód powstania
-Program na zaliczenie ale po modyfikacjach stał się moim zdaniem przydatnym narzędziem do uporządkowania informacji o długach jakie mają wobec nas znajmoi czy klienci.
+Program na zaliczenie, ale po modyfikacjach stał się moim zdaniem przydatnym narzędziem do uporządkowania informacji o długach jakie mają wobec nas znajmoi czy klienci.
 
 
